@@ -1,5 +1,5 @@
 var px, py, pd, pl, fx, fy;
-var grid;
+var grid = new Array(24);
 
 function initiate2DArray(x, y) {
   for(var a = 0; a < y; a++) {
@@ -10,6 +10,9 @@ function initiate2DArray(x, y) {
 function randomFood() {
   fx = ceil(random(0, 24)) - 1;
   fy = ceil(random(0, 24)) - 1;
+  if(grid[fx][fy] != 0) {
+    randomFood();
+  }
 }
 
 function preload() {
@@ -21,8 +24,6 @@ function preload() {
 
 function setup() {
   background(0);
-  grid = new Array(24);
-  randomFood();
   initiate2DArray(grid, 24);
   for(var a = 0; a < 24; a++) {
     for(var b = 0; b < 24; b++) {
@@ -30,6 +31,7 @@ function setup() {
     }
   }
   createCanvas(window.innerWidth, window.innerHeight);
+  randomFood();
   window.setInterval(function(){
     movePlayer();
 }, 115);
@@ -103,7 +105,7 @@ function draw() {
   }
   rect(px * 24, py * 24, 24, 24);
   if(fx == px && fy == py) {
-    pl = pl + 1;
+    pl += 1;
     randomFood();
   }
   fill(255, 0, 0);
